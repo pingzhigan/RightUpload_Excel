@@ -6,10 +6,15 @@ import sys
 import time
 import traceback
 
+# config = configparser.ConfigParser()
+# config.read('config.ini')
+#
+# host = config.get('server', 'host')
+# print(host)
+
 
 class FileUploader:
-    def __init__(self, config_path='config.ini'):
-        self.config_path = config_path
+    def __init__(self):
         self.host = None
         self.port = None
         self.timeout = None
@@ -17,8 +22,9 @@ class FileUploader:
 
     def _load_config(self):
         config = configparser.ConfigParser()
-        config.read(self.config_path)
+        config_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'config.ini')
         try:
+            config.read(config_path, encoding='utf-8')
             self.host = config.get('server', 'host')
             self.port = config.getint('server', 'port')
             self.timeout = config.getint('server', 'timeout')
@@ -104,6 +110,6 @@ def main():
         traceback.print_exc()
     finally:
         input("\n处理结束，按回车键退出...")
-
+#
 if __name__ == '__main__':
     main()
